@@ -1,0 +1,48 @@
+
+{% extends "MovieRate/layout.html" %}
+{% load static %}
+{% block content %}
+  {% if user.is_authenticated %}
+    <!-- Content for logged-in users -->
+    <h2>Welcome, {{ user.username }}!</h2>
+{% if recommended_movies %}
+      <h3>Recommended for You:</h3>
+      <div class="movie-grid">
+        {% for movie in recommended_movies %}
+          <div class="movie-item">
+            {% if movie.cover_image %}
+			<a href="{% url 'movie_view' movie.id %}">
+              <img src="{{ movie.cover_image.url }}" alt="{{ movie.title }} Cover" width="150">
+			</a>
+            {% else %}
+			<a href="{% url 'movie_view' movie.id %}">
+              <img src="{% static 'default_image.png' %}" alt="Default Cover Image" width="150">
+			</a>
+            {% endif %}
+            <br>
+            <a href="{% url 'movie_view' movie.id %}">
+              <strong>{{ movie.title }}</strong> 
+            </a>
+            <br>
+            {% if movie.averagerating.average_rating > 0 %}
+		<p>Average Rating: {{ movie.averagerating.average_rating }} ★ </p>
+		{% else %}
+		<p>No reviews</p>
+		{% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>No recommendations at the moment. Please rate some movies to get personalized recommendations!</p>
+    {% endif %}
+  {% else %}
+    <!-- Content for non-logged-in users -->
+    <h2>Welcome to MovieRate!</h2>
+    <p>Please <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a> to access the following features:</p>
+	<ul> <li> Submit your movie ratings </li>
+	<li> Your own profile page </li>
+	<li> Search filters </li>
+	<li> A recommendation list tailored to your preferences </li>
+	</ul>
+  {% endif %}
+{% endblock %}

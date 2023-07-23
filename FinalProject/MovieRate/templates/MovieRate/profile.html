@@ -1,0 +1,64 @@
+<!-- profile.html -->
+
+{% extends "MovieRate/layout.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+  <h2>Welcome to Your Profile, {{ profile.display_name }}!</h2>
+  <br>
+  <p>Username: {{ profile.user }}</p>
+  <p>Bio: {% if profile.bio %}{{ profile.bio }}{% else %}No bio available{% endif %}</p>
+
+  <h3>Your Ratings</h3>
+  <div class="movie-grid">
+    {% for rating in ratings %}
+      <div class="movie-item">
+        {% if rating.movie.cover_image %}
+			<a href="{% url 'movie_view' rating.movie.id %}">
+          <img src="{{ rating.movie.cover_image.url }}" alt="{{ rating.movie.title }} Cover">
+		  </a>
+        {% else %}
+			<a href="{% url 'movie_view' rating.movie.id %}">
+          <img src="{% static 'default_image.png' %}" alt="Default Cover Image">
+		  </a>
+        {% endif %}
+        <br>
+        <a href="{% url 'movie_view' rating.movie.id %}">
+          <strong>{{ rating.movie.title }}</strong>
+        </a>
+        <br>
+        Your Rating: {{ rating.rating }} ★
+      </div>
+    {% endfor %}
+  </div>
+  
+  
+  <button class="btn custom-search-btn my-5" id="edit-profile-btn" class="edit-profile-button my-5">Edit Profile</button>
+
+  <div id="edit-profile-form" style="display: none;">
+    <h3>Edit Profile</h3>
+    <form method="post">
+      {% csrf_token %}
+      {{ form|crispy }}  <!-- Render the form using crispy_forms_tags -->
+      <input type="submit" value="Save">
+    </form>
+  </div>
+  <br>
+
+
+  
+
+  <script>
+    const editProfileBtn = document.getElementById('edit-profile-btn');
+    const editProfileFormContainer = document.getElementById('edit-profile-form');
+
+    editProfileBtn.addEventListener('click', function() {
+      if (editProfileFormContainer.style.display === 'none') {
+        editProfileFormContainer.style.display = 'block';
+      } else {
+        editProfileFormContainer.style.display = 'none';
+      }
+    });
+  </script>
+{% endblock %}

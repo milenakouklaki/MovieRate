@@ -1,0 +1,28 @@
+<!-- browse_movies.html -->
+
+{% extends "MovieRate/layout.html" %}
+
+
+
+{% block content %}
+  <h2>Browse Movies by Genre</h2>
+  <div class="row">
+    {% for genre in genres %}
+      <div class="col-md-4 mb-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><a href="{% url 'movies_by_genre' genre.id %}">{{ genre.name }}</a></h5>
+            <p class="card-text">
+              {% if genre.genre_set.all %}
+                Subgenres:
+                {% for subgenre in genre.genre_set.all %}
+                  <a href="{% url 'movies_by_genre' subgenre.id %}">{{ subgenre.name }}</a>{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+              {% endif %}
+            </p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

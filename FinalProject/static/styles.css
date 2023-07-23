@@ -1,0 +1,175 @@
+/* style.css */
+
+body {
+  font-family: trebuchet ms, sans-serif;
+  background-color: #f0e6e6;
+}
+
+.navbar-links {
+	margin-top: 15px;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #3b2c2d;
+  padding: 10px;
+}
+
+
+.navbar a {
+	color: #F5CED4;
+  padding: 8px 16px; /* Add padding around the links */
+}
+
+.navbar-toggler {
+  background-color: #F09DAA; /* Set the background color of the hamburger icon */
+  color: #ffffff;
+  border: none; /* Remove any border */
+}
+
+/* Style the hamburger icon when it's clicked (active state) */
+.navbar-toggler[aria-expanded="true"] {
+  background-color: #ffffff; /* Set the background color of the hamburger icon when active */
+  color: #F09DAA;
+}
+
+.brand-text{
+	font-family: 'Pangolin', cursive;
+	color: #c03838;
+	letter-spacing: 2px;
+	margin-left: 3px;
+	font-size: 1.6rem;
+}
+
+.logo-img{
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+  border-radius: 15%;
+}
+
+.cover-img{
+	display: block;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 4px;
+}
+
+.navbar-links a:visited {
+  color: #F09DAA;
+}
+
+.custom-search-btn {
+  background-color: #F09DAA;
+  color: #992929;
+  /* Add any additional styles as needed */
+}
+
+/* Create a grid layout for the recommended movies */
+.movie-grid {
+	margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px; /* Adjust the gap between movie items as desired */
+}
+
+/* Style each movie item */
+.movie-item {
+  text-align: center;
+}
+
+/* Ensure the image and content within the movie item are centered */
+.movie-item img {
+  width: 100%; /* Fill the entire container horizontally */
+  height: 80%; /* Fill the entire container vertically */
+  object-fit: cover; /* Ensure the image maintains its aspect ratio and covers the container */
+  max-width: 250px; /* Prevent the image from overflowing the container */
+  display: block;
+  margin: 0 auto;
+   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 4px;
+}
+
+
+.movie-item img:hover {
+  filter: grayscale(80%);
+}
+
+/* Add some space between the movie items */
+.movie-item {
+  margin-bottom: 20px;
+}
+
+.movie-item a {
+  font-size: 1.2rem; /* Change the font size as desired */
+  font-weight: bold;
+}
+
+.edit-profile-button {
+  margin: 10px; /* Adjust the margin size as desired */
+}
+
+h2 {
+  margin-top: 20px; /* Adjust the top margin as desired */
+  margin-bottom: 10px; /* Adjust the bottom margin as desired */
+}
+
+a {
+  color: #d13f63;
+}
+
+/* Visited link color */
+a:visited {
+  color: #9e5964;
+}
+
+/* Hover link color */
+a:hover {
+  color: #eb2859;
+}
+
+
+/* The content section will grow and push the footer to the bottom */
+.content {
+  flex: 10;
+}
+
+.footer {
+  background-color: #f09daa;
+  color: #2C2424;
+  padding: 10px;
+  text-align: center;
+}
+
+
+/* Apply sticky footer only on larger screens (optional) */
+@media screen and (min-width: 768px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  .content {
+    flex: 1;
+  }
+}
+
+.card {
+  height: 100%;
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+  align-items: center;
+}
+
+.card-text {
+  margin-top: 10px;
+}

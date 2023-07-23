@@ -1,0 +1,31 @@
+{% extends "MovieRate/layout.html" %}
+{% load static %}
+{% block content %}
+  <h2>Search Results for "{{ query }}"</h2>
+  {% if movies %}
+  <div class="movie-grid">
+    {% for movie in movies %}
+      <div class="movie-item">
+        {% if movie.cover_image %}
+		<a href="{% url 'movie_view' movie.id %}">
+          <img src="{{ movie.cover_image.url }}" alt="{{ movie.title }} Cover" width="150">
+		  </a>
+        {% else %}
+		<a href="{% url 'movie_view' movie.id %}">
+          <img src="{% static 'default_image.png' %}" alt="Default Cover Image" width="150">
+		  </a>
+        {% endif %}
+        <br>
+        <a href="{% url 'movie_view' movie.id %}">
+          <strong>{{ movie.title }}</strong>
+        </a>
+        <br>
+        <p>Release Date: {{ movie.release_date }}</p>
+        <p>Director: {{ movie.director }}</p>
+      </div>
+    {% endfor %}
+  </div>
+  {% else %}
+    <p>No results found.</p>
+  {% endif %}
+{% endblock %}

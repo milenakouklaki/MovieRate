@@ -1,0 +1,34 @@
+<!-- movies_by_genre.html -->
+
+{% extends "MovieRate/layout.html" %}
+{% load static %}
+{% block content %}
+  <h2>{{ genre.name }} Movies</h2>
+
+  <div class="movie-grid">
+    {% for movie in movies %}
+      <div class="movie-item">
+        {% if movie.cover_image %}
+		<a href="{% url 'movie_view' movie.id %}">
+          <img src="{{ movie.cover_image.url }}" alt="{{ movie.title }} Cover" width="150">
+		</a>
+        {% else %}
+		<a href="{% url 'movie_view' movie.id %}">
+          <img src="{% static 'default_image.png' %}" alt="Default Cover Image" width="150">
+		</a>
+        {% endif %}
+        <br>
+        <a href="{% url 'movie_view' movie.id %}">
+          <strong>{{ movie.title }}</strong>
+        </a>
+        {% if movie.averagerating.average_rating > 0 %}
+		<p>{{ movie.averagerating.average_rating }} ★ </p>
+		{% else %}
+		<p>No reviews</p>
+		{% endif %}
+        <p>Release Date: {{ movie.release_date }}</p>
+        <p>Director: {{ movie.director }}</p>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

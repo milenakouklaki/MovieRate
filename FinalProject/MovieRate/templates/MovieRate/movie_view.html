@@ -1,0 +1,103 @@
+<!-- movie_view.html -->
+
+{% extends "MovieRate/layout.html" %}
+{% load static %}
+
+
+{% block content %}
+  <h3><center><strong>{{ movie.title }}</center></strong></h3>
+    {% if movie.cover_image %}
+    <img class="cover-img" src="{{ movie.cover_image.url }}" alt="{{ movie.title }} Cover Image" style="max-width: 300px;">
+  {% else %}
+	<img class="cover-img" src="{% static 'default_image.png' %}" alt="Default Cover Image" width="150">
+    <center><p>No cover image available.</p></center>
+  {% endif %}
+  <br>
+  
+  <center><p>{{ movie.description }}</p>
+      <p>Genres:
+        {% for genre in movie.genre.all %}
+          <a href="{% url 'movies_by_genre' genre.id %}">{{ genre.name }}</a>{% if not forloop.last %}, {% endif %}
+        {% endfor %}
+      </p>
+	  
+	<p><strong>Director:</strong> {{ movie.director }}</p>
+	<p><strong>Release Date:</strong> {{ movie.release_date }}</p>
+
+	
+	{% if movie.averagerating.average_rating > 0 %}
+    <p><strong>Average Rating:</strong> {{ movie.averagerating.average_rating }} ★ ({{ numratings }})</p>
+	{% else %}
+    <p>This movie has not been reviewed yet ☹</p>
+	{% endif %}
+
+<!-- Movie rating section -->
+{% if user.is_authenticated %}
+<div>
+  {% if user_rating %}
+    <p>Your Rating: {{ user_rating.rating }} ★</p>
+  {% else %}
+    <p>Rate this movie:</p>
+    <input type="number" id="rating-input" min="1" max="5" step="0.5">
+    <button class="btn custom-search-btn my-2" id="submit-rating">Submit</button>
+  {% endif %}
+</div>
+<br>
+{% else %}
+<p> To submit a rating of this movie, please <a href="{% url 'login' %}">Login</a> or <a href="{% url 'register' %}">Register</a> </p>
+{% endif %} </center>
+
+
+<!-- JavaScript code for user rating -->
+<script>
+  $(document).ready(function () {
+    // Get the rating input field and submit button
+    var ratingInput = $('#rating-input');
+    var submitButton = $('#submit-rating');
+
+    // Check if the user has already rated the movie
+    var userRating = {{ user_rating|default_if_none:"null" }};
+
+    if (userRating !== null) {
+      // User has already rated the movie, display their rating
+      ratingInput.hide();
+      submitButton.hide();
+
+      // Show the user's rating
+      $('#user-rating').text('Your Rating: ' + userRating);
+    } else {
+      // User has not rated the movie, show the input field and submit button
+      $('#user-rating').hide();
+
+      // Handle the click event on the submit button
+      submitButton.click(function () {
+        // Get the rating value from the input field
+        var rating = ratingInput.val();
+
+        // Make a GET request to the rate_movie view with the movie_id and rating as parameters
+        $.ajax({
+          type: 'GET',
+          url: 'rate_movie',
+          data: {
+            movie_id: {{ movie.id }},
+            rating: rating
+          },
+          success: function (data) {
+            // Check if the rating was successful
+            if (data.status === 'success') {
+              location.reload();
+            } else {
+              // Display an error message
+              alert('Error rating the movie.');
+            }
+          },
+          error: function () {
+            // Display an error message
+            alert('Error rating the movie.');
+          }
+        });
+      });
+    }
+  });
+</script>
+{% endblock %}
